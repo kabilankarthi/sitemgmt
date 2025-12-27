@@ -1,0 +1,7 @@
+{
+  "name": "CivicLogix - Site Management ERP",
+  "description": "A comprehensive site management system for civil engineers to track workers, punch-in/out with geolocation, manage site-specific expenses, and track client payments.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

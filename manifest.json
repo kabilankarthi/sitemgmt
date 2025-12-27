@@ -1,0 +1,22 @@
+
+{
+  "name": "CivicLogix Site Manager",
+  "short_name": "CivicLogix",
+  "description": "Mobile-first Civil Engineering Site and Workforce Management",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#f59e0b",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3259/3259166.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3259/3259166.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
