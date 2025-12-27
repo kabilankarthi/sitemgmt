@@ -216,7 +216,7 @@ const AttendanceTracker: React.FC<AttendanceTrackerProps> = ({ attendance, worke
                     <p className="text-[10px] font-medium text-slate-400 uppercase tracking-tight">{site?.name}</p>
                   </div>
                 </div>
-              ))}
+              )})};
             {completedRecords.length === 0 && <p className="p-8 text-center text-slate-400 text-sm">No recent shift logs</p>}
           </div>
         </div>
