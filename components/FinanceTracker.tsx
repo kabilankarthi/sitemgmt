@@ -36,69 +36,72 @@ const FinanceTracker: React.FC<FinanceTrackerProps> = ({ transactions, sites, on
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-xl font-bold text-slate-900">Financial Ledger</h2>
+        <h2 className="text-xl font-black text-slate-800 dark:text-white">Capital Ledger</h2>
         <button 
           onClick={() => setShowModal(true)}
-          className="w-full sm:w-auto bg-slate-900 text-white font-bold px-4 py-3 sm:py-2 rounded-xl hover:bg-slate-800 transition-colors flex items-center justify-center gap-2"
+          className="w-full sm:w-auto gradient-brand text-white font-black px-6 py-3 rounded-2xl hover:opacity-90 transition-all flex items-center justify-center gap-3 active:scale-95 shadow-lg shadow-primary-500/20"
         >
-          <i className="fa-solid fa-plus-circle"></i> Add Entry
+          <i className="fa-solid fa-plus-circle"></i> NEW RECORD
         </button>
       </div>
 
-      {/* Mobile Card View */}
-      <div className="grid grid-cols-1 gap-3 md:hidden">
+      <div className="grid grid-cols-1 gap-4 md:hidden">
         {sortedTxns.map(txn => (
-          <div key={txn.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center">
-            <div className="flex gap-3 items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${txn.type === TransactionType.INCOME ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                <i className={`fa-solid ${txn.type === TransactionType.INCOME ? 'fa-arrow-down' : 'fa-arrow-up'}`}></i>
+          <div key={txn.id} className="bg-white dark:bg-slate-900 p-5 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center card-hover transition-all">
+            <div className="flex gap-4 items-center">
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner ${txn.type === TransactionType.INCOME ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400'}`}>
+                <i className={`fa-solid ${txn.type === TransactionType.INCOME ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}`}></i>
               </div>
               <div>
-                <p className="font-bold text-slate-900 text-sm leading-tight">{txn.description}</p>
-                <div className="flex gap-2 items-center text-[10px] text-slate-500 mt-0.5">
-                  <span className="font-semibold text-amber-600">{sites.find(s => s.id === txn.siteId)?.name || 'General'}</span>
+                <p className="font-black text-slate-900 dark:text-white text-sm leading-tight uppercase tracking-tight">{txn.description}</p>
+                <div className="flex gap-2 items-center text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 mt-1">
+                  <span className="text-primary-500">{sites.find(s => s.id === txn.siteId)?.name || 'CENTRAL'}</span>
                   <span>•</span>
                   <span>{new Date(txn.date).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>
-            <p className={`font-bold text-base ${txn.type === TransactionType.INCOME ? 'text-green-600' : 'text-red-600'}`}>
+            <p className={`font-black text-lg ${txn.type === TransactionType.INCOME ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
               {txn.type === TransactionType.INCOME ? '+' : '-'}${txn.amount.toLocaleString()}
             </p>
           </div>
         ))}
-        {sortedTxns.length === 0 && <p className="text-center text-slate-400 py-10">No transactions recorded yet.</p>}
+        {sortedTxns.length === 0 && (
+          <div className="text-center py-20 bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800">
+             <i className="fa-solid fa-receipt text-slate-200 dark:text-slate-800 text-5xl mb-4"></i>
+             <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Zero transaction flow detected</p>
+          </div>
+        )}
       </div>
 
-      {/* Desktop Table View */}
-      <div className="hidden md:block bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="hidden md:block bg-white dark:bg-slate-900 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden transition-all">
         <table className="w-full text-left">
-          <thead className="bg-slate-50 border-b border-slate-200">
+          <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
             <tr>
-              <th className="px-6 py-4 text-sm font-bold text-slate-600 uppercase">Date</th>
-              <th className="px-6 py-4 text-sm font-bold text-slate-600 uppercase">Description</th>
-              <th className="px-6 py-4 text-sm font-bold text-slate-600 uppercase">Project</th>
-              <th className="px-6 py-4 text-sm font-bold text-slate-600 uppercase">Amount</th>
-              <th className="px-6 py-4 text-sm font-bold text-slate-600 uppercase text-right">Type</th>
+              <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[.3em]">Date</th>
+              <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[.3em]">Memo</th>
+              <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[.3em]">Entity</th>
+              <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[.3em]">Value</th>
+              <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[.3em] text-right">Class</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 transition-colors">
             {sortedTxns.map(txn => (
-              <tr key={txn.id} className="hover:bg-slate-50 transition-colors">
-                <td className="px-6 py-4 text-sm text-slate-500">
-                  {new Date(txn.date).toLocaleDateString()}
+              <tr key={txn.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <td className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase">{new Date(txn.date).toLocaleDateString()}</td>
+                <td className="px-8 py-5">
+                  <p className="font-black text-slate-900 dark:text-white uppercase text-sm tracking-tight">{txn.description}</p>
                 </td>
-                <td className="px-6 py-4">
-                  <p className="font-medium text-slate-900">{txn.description}</p>
+                <td className="px-8 py-5">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary-500">
+                    {sites.find(s => s.id === txn.siteId)?.name || 'CENTRAL'}
+                  </span>
                 </td>
-                <td className="px-6 py-4 text-sm font-medium">
-                  {sites.find(s => s.id === txn.siteId)?.name || 'General'}
-                </td>
-                <td className={`px-6 py-4 font-bold ${txn.type === TransactionType.INCOME ? 'text-green-600' : 'text-red-600'}`}>
+                <td className={`px-8 py-5 font-black text-lg ${txn.type === TransactionType.INCOME ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                   {txn.type === TransactionType.INCOME ? '+' : '-'}${txn.amount.toLocaleString()}
                 </td>
-                <td className="px-6 py-4 text-right">
-                  <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${txn.type === TransactionType.INCOME ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                <td className="px-8 py-5 text-right">
+                  <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${txn.type === TransactionType.INCOME ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400' : 'bg-rose-100 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400'}`}>
                     {txn.type}
                   </span>
                 </td>
@@ -109,52 +112,54 @@ const FinanceTracker: React.FC<FinanceTrackerProps> = ({ transactions, sites, on
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-[100] p-0 sm:p-4">
-          <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6 sm:p-8 shadow-2xl animate-in slide-in-from-bottom duration-300">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold">New Transaction</h2>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 p-2"><i className="fa-solid fa-xmark text-xl"></i></button>
+        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md flex items-end sm:items-center justify-center z-[100] p-0 sm:p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-t-[2.5rem] sm:rounded-[2.5rem] w-full max-w-md p-8 shadow-2xl animate-in slide-in-from-bottom duration-300">
+            <div className="flex justify-between items-center mb-10">
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Ledger Entry</h2>
+              <button onClick={() => setShowModal(false)} className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-rose-500 transition-colors">
+                <i className="fa-solid fa-xmark text-xl"></i>
+              </button>
             </div>
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Transaction Type</label>
-                <div className="flex gap-2">
+                <label className="block text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 px-1">Flow Type</label>
+                <div className="flex gap-4">
                   <button 
                     type="button" 
                     onClick={() => setFormData({...formData, type: TransactionType.INCOME})}
-                    className={`flex-1 py-3 rounded-xl font-bold border-2 transition-all ${formData.type === TransactionType.INCOME ? 'bg-green-500 text-white border-green-500 scale-[1.02]' : 'bg-white text-slate-400 border-slate-100'}`}
+                    className={`flex-1 py-4 rounded-2xl font-black border-2 transition-all text-xs tracking-widest uppercase flex items-center justify-center gap-3 ${formData.type === TransactionType.INCOME ? 'bg-emerald-500 text-white border-emerald-500 scale-105 shadow-xl shadow-emerald-500/20' : 'bg-white dark:bg-slate-800 text-slate-400 border-slate-100 dark:border-slate-800'}`}
                   >
-                    <i className="fa-solid fa-download mr-2"></i> Income
+                    <i className="fa-solid fa-download"></i> Income
                   </button>
                   <button 
                     type="button" 
                     onClick={() => setFormData({...formData, type: TransactionType.EXPENSE})}
-                    className={`flex-1 py-3 rounded-xl font-bold border-2 transition-all ${formData.type === TransactionType.EXPENSE ? 'bg-red-500 text-white border-red-500 scale-[1.02]' : 'bg-white text-slate-400 border-slate-100'}`}
+                    className={`flex-1 py-4 rounded-2xl font-black border-2 transition-all text-xs tracking-widest uppercase flex items-center justify-center gap-3 ${formData.type === TransactionType.EXPENSE ? 'bg-rose-500 text-white border-rose-500 scale-105 shadow-xl shadow-rose-500/20' : 'bg-white dark:bg-slate-800 text-slate-400 border-slate-100 dark:border-slate-800'}`}
                   >
-                    <i className="fa-solid fa-upload mr-2"></i> Expense
+                    <i className="fa-solid fa-upload"></i> Expense
                   </button>
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Site</label>
-                <select required value={formData.siteId} onChange={e => setFormData({...formData, siteId: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none">
-                  <option value="">Choose Site...</option>
-                  {sites.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                <label className="block text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 px-1">Source/Target Hub</label>
+                <select required value={formData.siteId} onChange={e => setFormData({...formData, siteId: e.target.value})} className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-primary-500 outline-none font-bold dark:text-white">
+                  <option value="">SELECT PROJECT HUB...</option>
+                  {sites.map(s => <option key={s.id} value={s.id}>{s.name.toUpperCase()}</option>)}
                 </select>
               </div>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Amount ($)</label>
-                  <input required type="number" step="0.01" value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-xl font-bold" placeholder="0.00" />
+                  <label className="block text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 px-1">Capital Value ($)</label>
+                  <input required type="number" step="0.01" value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})} className="w-full px-5 py-5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-primary-500 outline-none text-2xl font-black dark:text-white" placeholder="0.00" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Description</label>
-                  <input required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none" placeholder="e.g. Concrete Materials" />
+                  <label className="block text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 px-1">Transaction Narrative</label>
+                  <input required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-primary-500 outline-none dark:text-white font-bold" placeholder="e.g. Raw material procurement" />
                 </div>
               </div>
-              <div className="flex gap-4 pt-4 pb-4 sm:pb-0">
-                <button type="submit" className="w-full py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-lg">Save Record</button>
-              </div>
+              <button type="submit" className="w-full py-5 gradient-brand text-white font-black rounded-2xl hover:opacity-95 transition-all shadow-xl shadow-primary-500/30 active:scale-95 text-sm tracking-widest mt-4">
+                LEGALIZE RECORD
+              </button>
             </form>
           </div>
         </div>

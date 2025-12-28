@@ -13,6 +13,7 @@ export interface User {
   id: string;
   name: string;
   role: UserRole;
+  phone: string;
   workerId?: string; // Links to a Worker object if role is WORKER
 }
 
@@ -34,6 +35,7 @@ export interface Worker {
   dailyRate: number;
   assignedSiteId: string | null;
   phone: string;
+  password?: string; // For login
 }
 
 export interface Attendance {
@@ -42,6 +44,7 @@ export interface Attendance {
   siteId: string;
   punchIn: Date;
   punchOut?: Date;
+  isPaid?: boolean;
   location: {
     lat: number;
     lng: number;
@@ -55,7 +58,7 @@ export interface Transaction {
   amount: number;
   description: string;
   date: Date;
-  entityId?: string; // e.g., WorkerId if it's a salary expense
+  entityId?: string;
 }
 
 export interface AppState {
@@ -63,4 +66,6 @@ export interface AppState {
   workers: Worker[];
   attendance: Attendance[];
   transactions: Transaction[];
+  adminPhone: string;
+  adminPassword?: string;
 }
